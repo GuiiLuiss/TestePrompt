@@ -1,4 +1,5 @@
 import glob
+import sys
 
 def check_sections(file_path):
     required_sections = ["## **Identificação**", "## **Personalidade", "## **Contexto**"]  # Exemplo de seções obrigatórias
@@ -12,10 +13,10 @@ def check_sections(file_path):
 
     if missing_sections:
         print(f"Missing sections in {file_path}: {', '.join(missing_sections)}")
-        return False
+        sys.exit(1)
     else:
         print(f"All required sections are present in {file_path}.")
-        return True
+        sys.exit(0)
 
 def main():
     # Substitua './' pelo diretório específico se necessário, '**/*.txt' busca recursivamente
