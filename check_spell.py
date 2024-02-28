@@ -16,6 +16,9 @@ def preprocess_markdown(content):
     # Remove citações Markdown
     content = re.sub(r'^>\s*', '', content, flags=re.MULTILINE)
     
+    # Remove pontos e vírgulas
+    content = re.sub(r'[.,:;]', '', content)
+    
     # Adicione mais regras conforme necessário
     return content
 
@@ -39,15 +42,9 @@ def check_spelling(file_path):
     return True
 
 def main():
-    files_to_check = sys.argv[1:]  # Captura os arquivos passados como argumentos da linha de comando
-
-    # Se nenhum arquivo específico for fornecido, procura por todos os arquivos .txt
-    if not files_to_check:
-        files_to_check = glob.glob('./**/*.txt', recursive=True)
-
     all_clear = True
 
-    for file_path in files_to_check:
+    for file_path in  glob.glob('./**/*.txt', recursive=True):
         if not check_spelling(file_path):
             all_clear = False
 
