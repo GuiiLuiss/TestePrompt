@@ -55,14 +55,28 @@ jobs:
     - name: Use the variable
       run: echo $MY_VARIABLE
 
-    # Verificando seções
+    # Etapa para executar o isort nos notebooks (Ordena importações em Python)
     - name: Checando as seções do Prompt
-      run: python check_sextions.py
-      # Continuar mesmo se houver erro
-      continue-on-error: true
+      run: |
+        if [[ -n "$MY_VARIABLE" ]]; then
+          python check_sections.py $MY_VARIABLE
+        fi
 
     # Verificando seções
-    - name: Checando ortográfia do Prompt
-      run: python check_length.py
+    #- name: Checando as seções do Prompt
+     # run: python check_sections.py
+      # Continuar mesmo se houver erro
+   #   continue-on-error: true
+
+  # Etapa para executar o isort nos notebooks (Ordena importações em Python)
+    - name: Checando tamanho do Prompt
+      run: |
+        if [[ -n "$MY_VARIABLE" ]]; then
+          python check_length.py $MY_VARIABLE
+        fi
+
+    # Verificando seções
+    #- name: Checando ortográfia do Prompt
+    #  run: python check_length.py
       # Continuar mesmo se houver erro
       #continue-on-error: true
