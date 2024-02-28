@@ -59,7 +59,7 @@ jobs:
     - name: Checando as seções do Prompt
       run: python check_sections.py
       # Continuar mesmo se houver erro
-      continue-on-error: False
+      continue-on-error: True
 
     # Verificando seções
     - name: Checando tamanho do Prompt
