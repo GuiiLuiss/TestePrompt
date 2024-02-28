@@ -1,0 +1,22 @@
+name: Checar Arquivos TXT
+
+on:
+  push:
+    paths:
+      - '**.txt'
+
+jobs:
+  check-txt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Check TXT files
+        run: |
+          python check_txt.py
