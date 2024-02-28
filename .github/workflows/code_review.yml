@@ -42,10 +42,10 @@ jobs:
           ${{ runner.os }}-pip-
 
     # Etapa para instalar as dependências necessárias
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pyspellchecker
+    #- name: Install dependencies
+    #  run: |
+    #    python -m pip install --upgrade pip
+    #    pip install pyspellchecker
 
     # Capturando textos na variável $MY_VARIABLE
     - name: Set variable with git command output
@@ -55,29 +55,14 @@ jobs:
     - name: Use the variable
       run: echo $MY_VARIABLE
 
-    # Etapa para executar o isort nos notebooks (Ordena importações em Python)
+    # Verificando seções
     - name: Checando as seções do Prompt
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          python check_sections.py $MY_VARIABLE
-        fi
+      run: python check_sections.py
+      # Continuar mesmo se houver erro
       continue-on-error: true
 
     # Verificando seções
-    #- name: Checando as seções do Prompt
-     # run: python check_sections.py
-      # Continuar mesmo se houver erro
-   #   continue-on-error: true
-
-  # Etapa para executar o isort nos notebooks (Ordena importações em Python)
     - name: Checando tamanho do Prompt
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          python check_length.py $MY_VARIABLE
-        fi
-
-    # Verificando seções
-    #- name: Checando ortográfia do Prompt
-    #  run: python check_length.py
+      run: python check_length.py
       # Continuar mesmo se houver erro
-      #continue-on-error: true
+      continue-on-error: False

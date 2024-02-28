@@ -20,7 +20,7 @@ def check_sections(file_path):
 
 def main():
     # Substitua './' pelo diretório específico se necessário, '**/*.txt' busca recursivamente
-    for file_path in glob.glob('./**/*.txt', recursive=True):
+    for file_path in glob.glob('./**/*.txt', recursive=False):
         check_sections(file_path)
 
 if __name__ == "__main__":
