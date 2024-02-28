@@ -1,4 +1,4 @@
-import glob
+import os
 import sys
 
 def check_sections(file_path):
@@ -13,15 +13,31 @@ def check_sections(file_path):
 
     if missing_sections:
         print(f"Seções faltando em {file_path}: {', '.join(missing_sections)}")
-        sys.exit(1)
+        return False  # Retorna False se faltarem seções
     else:
         print(f"Todas as seções obrigatórias estão presentes em {file_path}.")
-        sys.exit(0)
+        return True  # Retorna True se todas as seções estiverem presentes
 
 def main():
-    # Substitua './' pelo diretório específico se necessário, '**/*.txt' busca recursivamente
-    for file_path in glob.glob('./**/*.txt', recursive=False):
-        check_sections(file_path)
+    files_to_check = os.getenv('MY_VARIABLE')  # Lê os nomes dos arquivos da variável de ambiente
+
+    if files_to_check:
+        files_to_check = files_to_check.split()  # Converte a string em uma lista de nomes de arquivos
+    else:
+        print("Nenhum arquivo modificado ou adicionado para verificar.")
+        sys.exit(0)  # Termina com sucesso se não houver arquivos para verificar
+
+    all_clear = True
+
+    for file_path in files_to_check:
+        if not check_sections(file_path):
+            all_clear = False
+
+    if not all_clear:
+        sys.exit(1)  # Termina com erro se algum arquivo não tiver todas as seções obrigatórias
+    else:
+        print("Todos os arquivos modificados/adicionados contêm todas as seções obrigatórias.")
+        sys.exit(0)  # Termina com sucesso se todos os arquivos estiverem completos
 
 if __name__ == "__main__":
     main()
