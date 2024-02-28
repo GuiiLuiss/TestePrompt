@@ -1,0 +1,45 @@
+# Nome do workflow
+name: Boris Prompts
+
+# Eventos que acionarão este workflow: Quando houver um push no repositório
+on:
+  push:
+    # Somente para arquivos com extensão .ipynb
+    paths:
+      - '**.txt'
+
+# Definindo os jobs que serão executados
+jobs:
+
+  # Nome do job
+  boris-check-prompt:
+    
+    # Definindo o sistema operacional onde o job será executado
+    runs-on: ubuntu-latest
+    
+    # Etapas do job
+    steps:
+
+    # Etapa para obter o código do repositório
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Etapa para configurar o Python
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    # Capturando notebooks na variável $MY_VARIABLE
+    - name: Set variable with git command output
+      run: echo "MY_VARIABLE=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .txt | tr '\n' ' ')" >> $GITHUB_ENV
+    
+    # Visualizando notebooks da variável $MY_VARIABLE
+    - name: Use the variable
+      run: echo $MY_VARIABLE
+
+    # Verificando seções
+    - name: Check TXT Files
+      run: python check_txt.py
