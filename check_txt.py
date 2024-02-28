@@ -2,7 +2,7 @@ import glob
 import sys
 
 def check_sections(file_path):
-    required_sections = ["## **Identificação**", "## **Personalidade", "## **Contexto**"]  # Exemplo de seções obrigatórias
+    required_sections = ["## **Identificação", "## **Personalidade", "## **Contexto"]  # Exemplo de seções obrigatórias
     missing_sections = []
 
     with open(file_path, 'r', encoding='utf-8') as file:
