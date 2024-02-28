@@ -42,4 +42,4 @@ jobs:
 
     # Verificando seções
     - name: Check TXT Files
-      run: python check_txt.py
+      run: python check_txt.py ${{ env.MY_VARIABLE }}
