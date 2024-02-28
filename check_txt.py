@@ -12,10 +12,10 @@ def check_sections(file_path):
                 missing_sections.append(section)
 
     if missing_sections:
-        print(f"Missing sections in {file_path}: {', '.join(missing_sections)}")
+        print(f"Seções faltando em {file_path}: {', '.join(missing_sections)}")
         sys.exit(1)
     else:
-        print(f"All required sections are present in {file_path}.")
+        print(f"Todas as seções obrigatórias estão presentes em {file_path}.")
         sys.exit(0)
 
 def main():
