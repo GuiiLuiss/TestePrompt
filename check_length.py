@@ -1,3 +1,4 @@
+import os
 import glob
 import sys
 
@@ -9,10 +10,13 @@ def check_file_length(file_path, max_length=20000):
     return True, len(content)
 
 def main():
-    files_to_check = sys.argv[1:]  # Captura os arquivos passados como argumentos da linha de comando
+    files_to_check = os.getenv('MY_VARIABLE')  # Lê os nomes dos arquivos da variável de ambiente
 
-    if not files_to_check:
-        files_to_check = glob.glob('./**/*.txt', recursive=True)
+    if files_to_check:
+        files_to_check = files_to_check.split()  # Converte a string para uma lista de nomes de arquivos
+    else:
+        print("Nenhum arquivo modificado ou adicionado para verificar.")
+        sys.exit(0)  # Termina com sucesso se não houver arquivos para verificar
 
     all_clear = True
 
@@ -27,8 +31,8 @@ def main():
     if not all_clear:
         sys.exit(1)  # Termina com erro se algum arquivo exceder o limite
     else:
-        print("Todos os arquivos estão dentro do limite de caracteres.")
-        sys.exit(0)  # Termina com sucesso se todos os arquivos estiverem dentro do limite
+        print("Todos os arquivos modificados/adicionados estão dentro do limite de caracteres.")
+        sys.exit(0)  # Termina com sucesso
 
 if __name__ == "__main__":
     main()
