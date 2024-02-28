@@ -2,7 +2,7 @@ import glob
 import sys
 
 def check_sections(file_path):
-    required_sections = ["## **Identificação**", "## **Personalidade", "## **Contexto**"]  # Exemplo de seções obrigatórias
+    required_sections = ["## **Identificação**", "## **Personalidade**", "## **Contexto**"]
     missing_sections = []
 
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -13,15 +13,21 @@ def check_sections(file_path):
 
     if missing_sections:
         print(f"Seções faltando em {file_path}: {', '.join(missing_sections)}")
-        sys.exit(1)
+        return False  # Retornar False em vez de chamar sys.exit(1)
     else:
         print(f"Todas as seções obrigatórias estão presentes em {file_path}.")
-        sys.exit(0)
+        return True
 
 def main():
-    # Substitua './' pelo diretório específico se necessário, '**/*.txt' busca recursivamente
+    errors = False
     for file_path in glob.glob('./**/*.txt', recursive=True):
-        check_sections(file_path)
+        if not check_sections(file_path):
+            errors = True  # Marcar que encontramos erros
+
+    if errors:
+        sys.exit(1)  # Terminar com código de saída de falha se algum erro foi encontrado
+    else:
+        sys.exit(0)  # Terminar com sucesso se nenhum erro foi encontrado
 
 if __name__ == "__main__":
     main()
