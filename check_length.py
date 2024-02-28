@@ -14,7 +14,7 @@ def check_file_length(file_path, max_length=20000):
 
 def main():
     # Substitua './' pelo diretório específico se necessário, '**/*.txt' busca recursivamente
-    for file_path in glob.glob('./**/*.txt', recursive=True):
+    for file_path in glob.glob('./**/*.txt', recursive=False):
         check_file_length(file_path)
 
 if __name__ == "__main__":

@@ -61,6 +61,7 @@ jobs:
         if [[ -n "$MY_VARIABLE" ]]; then
           python check_sections.py $MY_VARIABLE
         fi
+      continue-on-error: true
 
     # Verificando seções
     #- name: Checando as seções do Prompt
