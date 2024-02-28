@@ -4,7 +4,7 @@ name: Boris Prompts
 # Eventos que acionarão este workflow: Quando houver um push no repositório
 on:
   push:
-    # Somente para arquivos com extensão .ipynb
+    # Somente para arquivos com extensão .txt
     paths:
       - '**.txt'
 
@@ -37,7 +37,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/code_review.yml') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/prompt_review.yml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
@@ -55,13 +55,13 @@ jobs:
     - name: Use the variable
       run: echo $MY_VARIABLE
 
-    # Verificando seções
+    # Verificando seções obrigatórias no prompt
     - name: Checando as seções do Prompt
       run: python check_sections.py
       # Continuar mesmo se houver erro
-      continue-on-error: True
+      continue-on-error: False
 
-    # Verificando seções
+    # Verificando o tamanho do prompt
     - name: Checando tamanho do Prompt
       run: python check_length.py
       # Continuar mesmo se houver erro
