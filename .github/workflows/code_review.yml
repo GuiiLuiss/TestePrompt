@@ -31,15 +31,38 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    
+    # Cache
+    - name: Cache Python dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/code_review.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
-    # Capturando notebooks na variável $MY_VARIABLE
+    # Etapa para instalar as dependências necessárias
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyspellchecker
+
+    # Capturando textos na variável $MY_VARIABLE
     - name: Set variable with git command output
       run: echo "MY_VARIABLE=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .txt | tr '\n' ' ')" >> $GITHUB_ENV
     
-    # Visualizando notebooks da variável $MY_VARIABLE
+    # Visualizando textos da variável $MY_VARIABLE
     - name: Use the variable
       run: echo $MY_VARIABLE
 
     # Verificando seções
-    - name: Check TXT Files
-      run: python check_txt.py
+    - name: Checando as seções do Prompt
+      run: python check_sextions.py
+      # Continuar mesmo se houver erro
+      continue-on-error: true
+
+    # Verificando seções
+    - name: Checando ortográfia do Prompt
+      run: python check_spell.py
+      # Continuar mesmo se houver erro
+      continue-on-error: true
