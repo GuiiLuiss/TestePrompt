@@ -63,6 +63,6 @@ jobs:
 
     # Verificando seções
     - name: Checando ortográfia do Prompt
-      run: python check_spell.py
+      run: python check_length.py
       # Continuar mesmo se houver erro
-      continue-on-error: true
+      #continue-on-error: true
