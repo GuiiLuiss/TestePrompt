@@ -32,6 +32,16 @@ jobs:
       with:
         python-version: 3.8
     
+    #########################################
+    - name: Configurar Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Instalar PromptFoo
+      run: npm install -g promptfoo
+    #########################################
+    
     # Cache
     - name: Cache Python dependencies
       uses: actions/cache@v2
@@ -64,5 +74,11 @@ jobs:
     # Verificando o tamanho do prompt
     - name: Checando tamanho do Prompt
       run: python check_length.py
+      # Continuar mesmo se houver erro
+      continue-on-error: False
+
+    # Verificando qualidade do prompt
+    - name: Checando qualidade do prompt
+      run: python teste.py
       # Continuar mesmo se houver erro
       continue-on-error: False
