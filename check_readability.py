@@ -34,7 +34,7 @@ def main():
         if readability_score >= 46:  # 52 o máximo
             print(f"Texto em {file_path} classificado como FÁCIL de ler. Aprovado.")
         elif readability_score >= 30:
-            print(f"Texto em {file_path} classificado como MÉDIO de ler. Aprovado.")
+            print(f"Texto em {file_path} classificado como MÉDIO de ler. Aprovado. Obs: Revisar assim que possível")
         else:
             print(f"Texto em {file_path} classificado como DIFÍCIL de ler. Reprovado.")
             sys.exit(1)  # Sai com erro imediatamente se algum texto é difícil de ler
