@@ -2,6 +2,8 @@ import textstat
 import os
 import sys
 
+textstat.set_lang("pt")
+
 def check_readability(file_path):
     """
     Calcula o índice de legibilidade Flesch-Kincaid para o arquivo especificado.
