@@ -1,28 +1,28 @@
-import subprocess
+import textstat
 import os
-import json
 import sys
 
-def run_promptfoo_eval(file_path):
-    try:
-        # Adapte os argumentos conforme necessário para sua configuração
-        result = subprocess.run(['promptfoo', 'eval', '-p', file_path, '--no-cache'], capture_output=True, text=True, check=True)
-        print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        print(f"Erro ao executar PromptFoo para o arquivo {file_path}:", e.stderr)
-        sys.exit(1)
+def check_readability(file_path):
+    """
+    Calcula o índice de legibilidade Flesch-Kincaid para o arquivo especificado.
+    """
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+        readability_score = textstat.flesch_kincaid_grade(content)
+        return readability_score
 
 def main():
-    files_to_check = json.loads(os.getenv('MY_VARIABLE', '[]'))
+    files_to_check = os.getenv('MY_VARIABLE')
 
-    if not files_to_check:
-        print("Nenhum arquivo modificado ou adicionado para verificar.")
+    if files_to_check:
+        files_to_check = files_to_check.split()
+    else:
+        print("Nenhum arquivo para verificar.")
         sys.exit(0)
 
     for file_path in files_to_check:
-        run_promptfoo_eval(file_path)
-
-    print("Avaliação de prompts concluída com sucesso.")
+        readability_score = check_readability(file_path)
+        print(f"Índice de Legibilidade Flesch-Kincaid para {file_path}: {readability_score}")
 
 if __name__ == "__main__":
     main()
