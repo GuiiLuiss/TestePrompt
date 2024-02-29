@@ -67,8 +67,8 @@ jobs:
       # Continuar mesmo se houver erro
       continue-on-error: True
 
-    # Verificando legibilidade do prompt
-    - name: Checando legibilidade do prompt
+    # Verificando Clareza do prompt
+    - name: Checando clareza do prompt
       run: python check_readability.py
       # Continuar mesmo se houver erro
       continue-on-error: False
