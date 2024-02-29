@@ -67,11 +67,8 @@ jobs:
       # Continuar mesmo se houver erro
       continue-on-error: True
 
-
-    #########################################
-    # Verificando qualidade do prompt
-    - name: Checando qualidade do prompt
-      run: python teste.py
+    # Verificando legibilidade do prompt
+    - name: Checando legibilidade do prompt
+      run: python check_readability.py
       # Continuar mesmo se houver erro
       continue-on-error: False
-    #########################################
