@@ -8,7 +8,7 @@ def check_readability(file_path):
     """
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
-        readability_score = textstat.flesch_kincaid_grade(content)
+        readability_score = textstat.flesch_reading_ease(content)
         return readability_score
 
 def main():
