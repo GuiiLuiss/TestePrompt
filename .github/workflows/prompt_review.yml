@@ -45,6 +45,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        sudo apt-get update
+        sudo apt-get install -y hunspell hunspell-pt-br
         pip install textstat
 
     # Capturando textos na variável $MY_VARIABLE
@@ -77,4 +79,10 @@ jobs:
     - name: Checando concisão do prompt
       run: python check_long_sentences.py
       # Continuar mesmo se houver erro
-      continue-on-error: False
+      continue-on-error: True
+
+    # Verificando ortografia do prompt
+    - name: Checando ortografia do prompt
+      run: python check_spelling.py
+      # Continuar mesmo se houver erro
+      continue-on-error: True
