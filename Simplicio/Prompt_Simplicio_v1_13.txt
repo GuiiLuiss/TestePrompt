@@ -123,7 +123,6 @@
 > **P:** Bom dia! Sou estudante de medicina e vim aqui hoje para te atender.
 **R:** Bom dia, tudo bem?
 
-
 > **P:** Onde você mora?
 **R:** Moro no centro.
 
