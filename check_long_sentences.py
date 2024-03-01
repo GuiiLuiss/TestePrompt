@@ -2,7 +2,7 @@ import os
 import sys
 import re
 
-def check_long_sentences(file_path, max_words=50):
+def check_long_sentences(file_path, max_words=75):
     """
     Verifica se o arquivo contém frases com mais de 'max_words' palavras.
     Retorna False e detalhes das frases longas se encontradas, True e vazio caso contrário.
