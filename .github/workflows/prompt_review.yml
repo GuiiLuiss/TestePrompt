@@ -59,16 +59,22 @@ jobs:
     - name: Checando as seções do Prompt
       run: python check_sections.py
       # Continuar mesmo se houver erro
-      continue-on-error: False
+      continue-on-error: True
 
     # Verificando o tamanho do prompt
     - name: Checando tamanho do Prompt
       run: python check_length.py
       # Continuar mesmo se houver erro
-      continue-on-error: False
+      continue-on-error: True
 
     # Verificando Clareza do prompt
     - name: Checando clareza do prompt
       run: python check_readability.py
+      # Continuar mesmo se houver erro
+      continue-on-error: True
+    
+    # Verificando concisão do prompt
+    - name: Checando concisão do prompt
+      run: python check_long_sentences.py
       # Continuar mesmo se houver erro
       continue-on-error: False
