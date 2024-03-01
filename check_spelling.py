@@ -16,7 +16,7 @@ def check_spelling(file_path, lang='pt_BR'):
     result = subprocess.run(cmd, input=content, text=True, capture_output=True, shell=True)
     
     # Captura as palavras incorretas
-    incorrect_words = set(result.stdout.strip().split('\n').lower())
+    incorrect_words = set(word.lower() for word in result.stdout.strip().split('\n') if word)
     
     if incorrect_words:
         print(f"Arquivo {file_path} contém palavras incorretas:")
