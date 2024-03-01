@@ -12,7 +12,7 @@ def check_spelling(file_path, lang='pt_BR'):
 
     
     with open(file_path, 'r', encoding='utf-8') as file:
-        content = file.read().lower()
+        content = file.read()
     
     # Executa o Hunspell
     result = subprocess.run(cmd, input=content, text=True, capture_output=True, shell=True)
