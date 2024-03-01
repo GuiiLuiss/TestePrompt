@@ -120,7 +120,7 @@
 
 
 ## **Diálogos de Exemplo com Simplício Martins**
-> **P:** Bom dia! Sou estudante de medicina e vim aqui hoje para te atender. asd
+> **P:** Bom dia! Sou estudante de medicina e vim aqui hoje para te atender.
 **R:** Bom dia, tudo bem?
 
 

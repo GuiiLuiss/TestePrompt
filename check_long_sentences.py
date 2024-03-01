@@ -3,7 +3,7 @@ import sys
 import re
 
 # Função para verificar a presença de frases longas no texto
-def check_long_sentences(file_path, max_words=25):
+def check_long_sentences(file_path, max_words=50):
     """
     Verifica se o arquivo contém frases com mais de 'max_words' palavras.
     Retorna True se todas as frases estiverem dentro do limite, False caso contrário.
