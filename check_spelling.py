@@ -7,7 +7,9 @@ def check_spelling(file_path, lang='pt_BR'):
     Verifica a ortografia do arquivo usando Hunspell.
     """
     # Comando para verificar a ortografia com Hunspell
-    cmd = f"hunspell -d {lang} -l"
+    #cmd = f"hunspell -d {lang} -l"
+    cmd = f"hunspell -d {lang},custom -p ./custom.dic -l"
+
     
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
