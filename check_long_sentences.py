@@ -9,7 +9,7 @@ def check_long_sentences(file_path, max_words=50):
     """
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
-        sentences = re.split(r'[.!?]+|(?<!\.)\.{3}(?!\.)', content)
+        sentences = re.split(r'[.!?#]+|(?<!\.)\.{3}(?!\.)', content)
         
         # Inicializa uma lista para armazenar detalhes das frases longas
         long_sentences_details = []
