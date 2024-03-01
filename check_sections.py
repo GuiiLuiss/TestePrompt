@@ -5,7 +5,30 @@ import sys
 # Define uma função para verificar se as seções obrigatórias estão presentes em um arquivo
 def check_sections(file_path):
     # Lista de seções obrigatórias para verificar no arquivo
-    required_sections = ["## **Identificação", "## **Personalidade", "## **Contexto"]
+    required_sections = ["## **Identificação", 
+                         "## **Personalidade", 
+                         "## **Contexto",
+                         "## **Queixa",
+                         "## **História da Queixa",
+                         "## **História Médica Pregressa",
+                         "## **História Recente",
+                         "## **Dados Antropométricos",
+                         "## **História de Saúde",
+                         "## **Antecedentes Sexuais e Reprodutivos",
+                         "## **Informações sobre a Família",
+                         "## **História Social",
+                         "### **Substâncias",
+                         "### **Sono",
+                         "### **Atividade Física",
+                         "### **Alimentação",
+                         "### **Educação e Conhecimento",
+                         "### **Lazer",
+                         "### **Trabalho",
+                         "### **Domicílio",
+                         "### **Renda",
+                         "## **Instruções",
+                         "## **Diálogos de Exemplo"]
+    
     missing_sections = []  # Lista para armazenar seções que estão faltando no arquivo
     
     # Abre o arquivo para leitura com codificação UTF-8

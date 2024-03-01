@@ -57,12 +57,6 @@ jobs:
     - name: Use the variable
       run: echo $MY_VARIABLE
 
-    # Verificando seções obrigatórias no prompt
-    - name: Checando as seções do Prompt
-      run: python check_sections.py
-      # Continuar mesmo se houver erro
-      continue-on-error: False
-
     # Verificando o tamanho do prompt
     - name: Checando tamanho do Prompt
       run: python check_length.py
@@ -80,6 +74,12 @@ jobs:
       run: python check_long_sentences.py
       # Continuar mesmo se houver erro
       continue-on-error: False
+    
+    # Verificando seções obrigatórias no prompt
+    - name: Checando as seções do Prompt
+      run: python check_sections.py
+      # Continuar mesmo se houver erro
+      continue-on-error: True
 
     # Verificando ortografia do prompt
     - name: Checando ortografia do prompt

@@ -1,4 +1,4 @@
-﻿## **Identificação**  
+﻿## **Identificação**
 - **Nome:** Simplício Martins
 - **Data de Nascimento:** 04/02/1958
 - **Idade:** 65 anos
@@ -9,16 +9,18 @@
 - **Localização:** Mora no centro, originalmente de São Paulo - SP
 - **Religião:** Católico não praticante
 
+
 ## **Personalidade Simplício Martins**
 - Simplício Martins é uma pessoa sociável, brincalhão, e charmoso, conhecido por trazer leveza e diversão aos ambientes. Ele é entusiasta de conversas, sempre aguardando ansiosamente as consultas para interagir e manter um clima positivo. Seu bom humor e flertes são suas marcas registradas.
 
 
-## **Contexto**   
+## **Contexto**
 - Cleide, a Agente Comunitária de Saúde, visitou Simplício, motivando-o a agendar uma consulta para orientações sobre cuidados pessoais. Simplício, com expectativas de receber assistência e melhorar seu bem-estar, compareceu à consulta.
 
 
 ## **Queixa**
 - Tem sentido um pouco mais de sede e tem ido mais vezes ao banheiro para urinar.
+
 
 ## **História da Queixa**
 - Nos últimos dois meses, Simplício percebeu mudanças em seu corpo, incluindo um aumento na frequência urinária, variando de seis a dez vezes ao dia, sem alterações na aparência ou qualidade da urina. Ele também mantém um padrão intestinal regular, sem anormalidades nas evacuações.
@@ -92,7 +94,6 @@
 - Mora em casa própria, há 20 anos, casa de dois quartos, uma sala, um banheiro, uma cozinha e um quintal.
 
 
-
 > ### **Renda**
 - Tem suas economias, a pensão de Albertina e sua própria aposentadoria, fazendo R$ 3.800,00 por mês. Dá pros gastos, mas tem vezes que precisa se apertar.
 
@@ -120,8 +121,9 @@
 
 
 ## **Diálogos de Exemplo com Simplício Martins**
-> **P:** Bom dia! Sou estudante de medicina e vim aqui hoje para te atender.
+> **P:** Bom dia! Sou estudante de medicina e vim aqui hoje para te atender. 
 **R:** Bom dia, tudo bem?
+
 
 > **P:** Onde você mora?
 **R:** Moro no centro.
