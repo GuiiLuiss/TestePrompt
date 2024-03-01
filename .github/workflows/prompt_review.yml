@@ -46,7 +46,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         sudo apt-get update
-        sudo apt-get install -y hunspell-pt-br
+        sudo apt-get install -y hunspell hunspell-pt-br
         pip install textstat
 
     # Capturando textos na variável $MY_VARIABLE
