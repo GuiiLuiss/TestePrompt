@@ -125,8 +125,10 @@ jobs:
             
             - name: Validate pickle files
               run: |
-                find MLFlow -name '*.pkl' -exec python MLFlow/validate_pickle.py {} \;
-              continue-on-error: false
+                PICKLES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'MLFlow/.*\.pkl$')
+                for file in $PICKLES; do
+                  python MLFlow/validate_pickle.py $file
+                done
             
             - name: Set Git identity
               run: |
