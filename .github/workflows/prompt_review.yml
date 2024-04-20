@@ -52,9 +52,8 @@ jobs:
           nbqa ruff $NOTEBOOKS --ignore=E203,E266,E402,E501
           
       - name: Echo Pickle Files
-       if: env.PICKLES
-       run: | 
-        echo "Pickle files to validate: $PICKLES"
+        if: env.PICKLES
+        run: echo "Pickle files to validate: $PICKLES"
 
       - name: Validate pickle files
         if: env.PICKLES
