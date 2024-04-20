@@ -125,7 +125,7 @@ jobs:
             
             - name: Validate pickle files
               run: |
-                find MLFlow -name '*.pkl' -exec python validate_pickle.py {} \;
+                find MLFlow -name '*.pkl' -exec python MLFlow/validate_pickle.py {} \;
             
             - name: Set Git identity
               run: |
