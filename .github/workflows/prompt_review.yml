@@ -1,161 +1,77 @@
-# Nome do workflow
 name: Boris
 
-# Eventos que acionarão este workflow: Quando houver um push no repositório
 on:
   push:
-    # Somente para arquivos com extensão .ipynb
     paths:
       - '**.ipynb'
       - 'MLFlow/**/*.pkl'
 
-# Definindo os jobs que serão executados
+env:
+  PYTHON_VERSION: 3.8
+
 jobs:
-
-  # Nome do job
-  boris-check:
-    
-    # Definindo o sistema operacional onde o job será executado
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      files-changed: ${{ steps.git-check.outputs.files-changed }}
     
-    # Etapas do job
-    steps:
-
-    # Etapa para obter o código do repositório
-    - name: Check out code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    # Etapa para configurar o Python
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-
-    # Cache
-    - name: Cache Python dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/code_review.yml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    # Etapa para instalar as dependências necessárias
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install nbqa isort pyupgrade ruff black
-    
-    # Capturando notebooks na variável $MY_VARIABLE
-    - name: Set variable with git command output
-      run: echo "MY_VARIABLE=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .ipynb | tr '\n' ' ')" >> $GITHUB_ENV
-    
-    # Visualizando notebooks da variável $MY_VARIABLE
-    - name: Use the variable
-      run: echo $MY_VARIABLE
-  
-    # Etapa para executar o isort nos notebooks (Ordena importações em Python)
-    - name: Run nbQA with isort
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          nbqa isort $MY_VARIABLE
-        fi
-
-    # Etapa para executar o pyupgrade nos notebooks (Atualiza sintaxes Python para versões mais recentes)
-    - name: Run nbQA with pyupgrade
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          nbqa pyupgrade $MY_VARIABLE
-        fi
-      # Continuar mesmo se houver erro
-      continue-on-error: true
-
-    # Etapa para executar o black nos notebooks (Formata código Python para seguir um padrão)
-    - name: Run nbQA with black
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          nbqa black $MY_VARIABLE --line-length 120
-        fi
-
-    # Etapa para executar o ruff nos notebooks (Linter Python)
-    - name: Run nbQA with ruff
-      run: |
-        if [[ -n "$MY_VARIABLE" ]]; then
-          nbqa ruff $MY_VARIABLE --ignore=E203,E266,E402,E501
-        fi
-
-    # Etapa para verificar se houve modificações nos arquivos
-    - name: Check for modified files
-      id: git-check
-      run: |
-        git diff --exit-code || echo "files-changed=yes" >> $GITHUB_ENV
-
-    # Etapa para configurar a identidade do Git
-    - name: Set Git identity
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-
-    # Etapa para fazer commit e push das alterações, se houver
-    - name: Commit and push changes (if any)
-      if: env.files-changed == 'yes'
-      run: |
-        current_branch=$(git rev-parse --abbrev-ref HEAD)
-        git add -A
-        git commit -m "Automatically formatted by Boris"
-        git push origin $current_branch
-  
-# Nome do Segundo Job:
-  boris-validate-pickle:
-    needs: boris-check
-    runs-on: ubuntu-latest
-  
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
-      
-      - name: Install Python dependencies for pickle validation
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/code_review.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pickle5
-      
-      # Capturando notebooks na variável $MY_VARIABLE
+          pip install nbqa isort pyupgrade ruff black pickle5
+
       - name: Set variable with git command output
-        run: echo "MY_PICKLE=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .pkl | tr '\n' ' ')" >> $GITHUB_ENV
-      
-      # Visualizando pickle da variável $MY_PICKLE
-      - name: Use the variable
-        run: echo $MY_PICKLE
+        id: files-to-process
+        run: |
+          echo "NOTEBOOKS=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .ipynb | tr '\n' ' ')" >> $GITHUB_ENV
+          echo "PICKLES=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep .pkl | tr '\n' ' ')" >> $GITHUB_ENV
+
+      - name: Format and lint notebooks
+        if: env.NOTEBOOKS
+        run: |
+          nbqa isort $NOTEBOOKS
+          nbqa pyupgrade $NOTEBOOKS --py36-plus
+          nbqa black $NOTEBOOKS --line-length 120
+          nbqa ruff $NOTEBOOKS --ignore=E203,E266,E402,E501
 
       - name: Validate pickle files
+        if: env.PICKLES
         run: |
-          set -e  # Ensure the shell exits immediately if any command exits with a non-zero status
-          files=$(git diff --name-only --diff-filter=A HEAD | grep '\.pkl$')
-          for file in $files; do
+          set -e
+          for file in $PICKLES; do
             echo "Validating $file..."
             python validate_pickle.py $file
           done
-      
+
       - name: Set Git identity
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-      
+
       - name: Check for modified files
         id: git-check
-        run: git diff --exit-code || echo "files-changed=yes" >> $GITHUB_ENV
-  
+        run: git diff --exit-code || echo "::set-output name=files-changed::yes"
+
       - name: Commit and push changes (if any)
-        if: env.files-changed == 'yes'
+        if: steps.git-check.outputs.files-changed == 'yes'
         run: |
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
           git add -A
-          git commit -m "Pickle files validated by Boris"
-          git push origin $current_branch
+          git commit -m "Automatically formatted and validated by Boris"
+          git push
