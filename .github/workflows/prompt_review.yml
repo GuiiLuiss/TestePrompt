@@ -136,9 +136,12 @@ jobs:
 
       - name: Validate pickle files
         run: |
-          if [[ -n "$MY_PICKLE" ]]; then
-            python validate_pickle.py $MY_PICKLE
-          fi
+          set -e  # Ensure the shell exits immediately if any command exits with a non-zero status
+          files=$(git diff --name-only --diff-filter=A HEAD | grep '\.pkl$')
+          for file in $files; do
+            echo "Validating $file..."
+            python validate_pickle.py $file
+          done
       
       - name: Set Git identity
         run: |
