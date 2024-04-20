@@ -126,6 +126,7 @@ jobs:
             - name: Validate pickle files
               run: |
                 PICKLES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'MLFlow/.*\.pkl$')
+                echo "Pickle files to validate: $PICKLES"
                 for file in $PICKLES; do
                   python MLFlow/validate_pickle.py $file
                 done
