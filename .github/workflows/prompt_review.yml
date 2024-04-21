@@ -74,6 +74,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Garante que todo o histórico do repositório é disponibilizado
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
