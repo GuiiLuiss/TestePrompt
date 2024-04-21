@@ -108,42 +108,46 @@ jobs:
         git push origin $current_branch
   
   validate-pickle:
-    runs-on: ubuntu-latest
-    steps:
+      runs-on: ubuntu-latest
+      steps:
             - name: Check out code
               uses: actions/checkout@v2
-            
+        
             - name: Set up Python
               uses: actions/setup-python@v2
               with:
                 python-version: 3.8
-            
+        
             - name: Install Python dependencies for pickle validation
               run: |
                 python -m pip install --upgrade pip
                 pip install pickle5  # Substituir pelo nome correto da biblioteca se estiver usando uma versão diferente de pickle
-            
-            - name: Validate pickle files
+        
+            - name: Capture modified pickle files
+              run: echo "PICKLES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'MLFlow/.*\.pkl' | tr '\n' ' ')" >> $GITHUB_ENV
+        
+            - name: Validate modified pickle files
               run: |
-                PICKLES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'MLFlow/.*\.pkl$')
-                echo "Pickle files to validate: $PICKLES"
-                for file in $PICKLES; do
-                  python MLFlow/validate_pickle.py $file
-                done
-            
+                if [ -n "$PICKLES" ]; then
+                  for file in $PICKLES; do
+                    echo "Validating $file"
+                    python MLFlow/validate_pickle.py $file
+                  done
+                else
+                  echo "No pickle files to validate."
+                fi
+        
             - name: Set Git identity
               run: |
                 git config --global user.name "GitHub Actions"
                 git config --global user.email "actions@github.com"
-            
+        
             - name: Check for modified files
-              id: git-check
               run: git diff --exit-code || echo "files-changed=yes" >> $GITHUB_ENV
-      
+        
             - name: Commit and push changes (if any)
               if: env.files-changed == 'yes'
               run: |
-                current_branch=$(git rev-parse --abbrev-ref HEAD)
                 git add -A
                 git commit -m "Pickle files validated by Boris"
-                git push origin $current_branch
+                git push origin $(git rev-parse --abbrev-ref HEAD)
