@@ -108,8 +108,8 @@ jobs:
         git push origin $current_branch
   
   validate-pickle:
-      runs-on: ubuntu-latest
-      steps:
+          runs-on: ubuntu-latest
+          steps:
             - name: Check out code
               uses: actions/checkout@v2
         
@@ -124,7 +124,8 @@ jobs:
                 pip install pickle5  # Substituir pelo nome correto da biblioteca se estiver usando uma versão diferente de pickle
         
             - name: Capture modified pickle files
-              run: echo "PICKLES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'MLFlow/.*\.pkl' | tr '\n' ' ')" >> $GITHUB_ENV
+              run: |
+                echo "PICKLES=$(git diff-tree --no-commit-id --name-status -r HEAD | grep -E '^[AM]\s' | cut -f2- | grep 'MLFlow/.*\.pkl' | tr '\n' ' ')" >> $GITHUB_ENV
         
             - name: Validate modified pickle files
               run: |
@@ -151,3 +152,4 @@ jobs:
                 git add -A
                 git commit -m "Pickle files validated by Boris"
                 git push origin $(git rev-parse --abbrev-ref HEAD)
+        
